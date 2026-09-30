@@ -7,25 +7,25 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-deep: #0a0e1a; --bg-card: #111827; --bg-card-hover: #1a2332;
-  --border: #1e293b; --border-accent: #334155;
-  --text-primary: #f1f5f9; --text-secondary: #94a3b8; --text-muted: #64748b;
-  --accent-ocean: #06b6d4; --accent-ocean-dim: rgba(6,182,212,0.15);
-  --accent-coral: #f97316; --accent-coral-dim: rgba(249,115,22,0.12);
-  --accent-green: #22c55e; --accent-green-dim: rgba(34,197,94,0.12);
-  --accent-red: #ef4444; --accent-red-dim: rgba(239,68,68,0.12);
-  --accent-amber: #f59e0b; --accent-amber-dim: rgba(245,158,11,0.12);
-  --accent-violet: #a78bfa; --accent-violet-dim: rgba(167,139,250,0.12);
+  --bg-deep: #f4f6fa; --bg-card: #ffffff; --bg-card-hover: #f0f4f9;
+  --border: #e4e9f2; --border-accent: #cfd8e6;
+  --text-primary: #182338; --text-secondary: #4d5e78; --text-muted: #8794a8;
+  --accent-ocean: #0e8ea8; --accent-ocean-dim: rgba(14,142,168,0.10);
+  --accent-coral: #e05a00; --accent-coral-dim: rgba(224,90,0,0.08);
+  --accent-green: #14954b; --accent-green-dim: rgba(20,149,75,0.10);
+  --accent-red: #dc2626; --accent-red-dim: rgba(220,38,38,0.10);
+  --accent-amber: #c27400; --accent-amber-dim: rgba(194,116,0,0.10);
+  --accent-violet: #7c5cd6; --accent-violet-dim: rgba(124,92,214,0.10);
 }
 * {margin:0;padding:0;box-sizing:border-box}
 body {background:var(--bg-deep);color:var(--text-primary);font-family:'Noto Sans SC',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(6,182,212,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(167,139,250,0.04) 0%,transparent 50%);pointer-events:none}
+body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(14,142,168,0.05) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(124,92,214,0.04) 0%,transparent 50%);pointer-events:none}
 .mono {font-family:'DM Mono',monospace}
 .container {max-width:1400px;margin:0 auto;padding:24px 20px;position:relative;z-index:1}
 .header {display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.header-left h1 {font-size:28px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#06b6d4,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-left h1 {font-size:28px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#0e8ea8,#7c5cd6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .header-left .sub {font-size:13px;color:var(--text-muted);margin-top:4px;letter-spacing:0.5px}
-.update-badge {display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;background:var(--accent-ocean-dim);color:var(--accent-ocean);border:1px solid rgba(6,182,212,0.25);margin-top:6px}
+.update-badge {display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;background:var(--accent-ocean-dim);color:var(--accent-ocean);border:1px solid rgba(14,142,168,0.3);margin-top:6px}
 .update-badge .dot {width:6px;height:6px;border-radius:50%;background:var(--accent-ocean);animation:pulse 2s infinite}
 @keyframes pulse {0%,100%{opacity:1}50%{opacity:0.3}}
 .summary-strip {display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
@@ -60,7 +60,7 @@ body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-in
 .flight-arrow::after {content:attr(data-dur);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--text-muted);white-space:nowrap}
 .flight-info-row {display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px}
 .flight-price-row {display:flex;gap:8px;margin-top:10px}
-.flight-price-box {flex:1;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 8px;text-align:center}
+.flight-price-box {flex:1;background:rgba(24,35,56,0.04);border-radius:6px;padding:6px 8px;text-align:center}
 .flight-price-box .label {font-size:9px;color:var(--text-muted)}
 .flight-price-box .val {font-size:16px;font-weight:900;color:var(--accent-coral);font-family:'DM Mono',monospace}
 .flight-price-box.x6 .val {color:var(--accent-amber)}
@@ -77,7 +77,7 @@ body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-in
 .flight-total-bar .val .x6 {color:var(--accent-amber)}
 .hotel-section {background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
 .hotel-table {width:100%;border-collapse:separate;border-spacing:0}
-.hotel-table thead th {padding:10px 8px;font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;text-transform:uppercase;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
+.hotel-table thead th {padding:10px 8px;font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;text-transform:uppercase;letter-spacing:0.3px;background:rgba(24,35,56,0.03);border-bottom:1px solid var(--border)}
 .hotel-table thead th:first-child {text-align:left}
 .hotel-table tbody td {padding:12px 8px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;text-align:center}
 .hotel-table tbody td:first-child {text-align:left}
@@ -151,7 +151,7 @@ body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-in
 <script>
 /* === DATA_BLOCK_START === */
 const DATA = {
-  lastUpdate: "2026-09-30T17:35",
+  lastUpdate: "2026-10-01T10:00",
   paxCount: 4,
   trip: {
     label: "富国岛4晚+香港1晚",
@@ -165,9 +165,9 @@ const DATA = {
 {id:"leg3",label:"回程",no:"CX362",airline:"国泰航空",aircraft:"波音777-300",depDate:"2026-11-24",depTime:"19:20",arrTime:"22:00",arrNote:"",from:"香港T1",to:"上海浦东T2",dur:"约2h40m",price:725,note:"携程问道¥725",ctrip:725,flyai:null}
     ],
     hotels: [
-{id:"seg1-mgallery",name:"美憬阁拉维朗达",nameEn:"La Veranda Resort Phu Quoc - MGallery",location:"富国岛·阳东长滩",recLabel:"法式风情",checkIn:"2026-11-19",checkOut:"2026-11-21",nights:2,rooms:2,guests:4,room:"豪华园景双床房",note:"五星级·2023年装修·免费接机·携程4.8分",prices:{ctrip:null,flyai:null,klook:1263,agoda:null},priceNotes:{ctrip:"无实时报价·需App确认",flyai:"飞猪无此酒店",klook:"6/28历史参考价",agoda:"待巡查补充"}},
-{id:"seg2-curio-hilton",name:"希尔顿格芮精选",nameEn:"La Festa Phu Quoc, Curio Collection by Hilton",location:"富国岛·日落小镇",recLabel:"日落景观",checkIn:"2026-11-21",checkOut:"2026-11-23",nights:2,rooms:2,guests:4,room:"经典双床房",note:"2023年开业·缆车步行·烟花秀·携程4.6分",prices:{ctrip:6076,flyai:4000,klook:996,agoda:null},priceNotes:{ctrip:"11月旺季含税参考价",flyai:"¥4xxx体验模式模糊价",klook:"近30天最低(10/26参考)",agoda:"待巡查补充"}},
-{id:"seg3-hopewell",name:"香港合和酒店",nameEn:"Hopewell Hotel Hong Kong",location:"香港·湾仔",recLabel:"港岛最大五星",checkIn:"2026-11-23",checkOut:"2026-11-24",nights:1,rooms:2,guests:4,room:"豪华客房双床30㎡",note:"2024年12月开业·1000间客房·近湾仔地铁站·9.3分",prices:{ctrip:null,flyai:1000,klook:1030,agoda:null},priceNotes:{ctrip:"无实时报价·需App确认",flyai:"¥1xxx体验模式模糊价",klook:"RM634≈¥1,030(30天最低)",agoda:"待巡查补充"}}
+{id:"seg1-mgallery",name:"美憬阁拉维朗达",nameEn:"La Veranda Resort Phu Quoc - MGallery",location:"富国岛·阳东长滩",recLabel:"法式风情",checkIn:"2026-11-19",checkOut:"2026-11-21",nights:2,rooms:2,guests:4,room:"豪华园景双床房",note:"五星级·2023年装修·免费接机·携程4.8分",prices:{ctrip:1341,flyai:null,klook:1263,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"飞猪无此酒店",klook:"6/28历史参考价",agoda:"待巡查补充"}},
+{id:"seg2-curio-hilton",name:"希尔顿格芮精选",nameEn:"La Festa Phu Quoc, Curio Collection by Hilton",location:"富国岛·日落小镇",recLabel:"日落景观",checkIn:"2026-11-21",checkOut:"2026-11-23",nights:2,rooms:2,guests:4,room:"经典双床房",note:"2023年开业·缆车步行·烟花秀·携程4.6分",prices:{ctrip:1501,flyai:4000,klook:996,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"¥4xxx体验模式模糊价",klook:"近30天最低(10/26参考)",agoda:"待巡查补充"}},
+{id:"seg3-hopewell",name:"香港合和酒店",nameEn:"Hopewell Hotel Hong Kong",location:"香港·湾仔",recLabel:"港岛最大五星",checkIn:"2026-11-23",checkOut:"2026-11-24",nights:1,rooms:2,guests:4,room:"豪华客房双床30㎡",note:"2024年12月开业·1000间客房·近湾仔地铁站·9.3分",prices:{ctrip:1216,flyai:1000,klook:1030,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"¥1xxx体验模式模糊价",klook:"RM634≈¥1,030(30天最低)",agoda:"待巡查补充"}}
     ]
   }
 };
