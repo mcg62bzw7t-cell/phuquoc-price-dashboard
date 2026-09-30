@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>富国岛+香港 · 三段航班出行看板</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0a0e1a; --bg-card: #111827; --bg-card-hover: #1a2332;
+  --border: #1e293b; --border-accent: #334155;
+  --text-primary: #f1f5f9; --text-secondary: #94a3b8; --text-muted: #64748b;
+  --accent-ocean: #06b6d4; --accent-ocean-dim: rgba(6,182,212,0.15);
+  --accent-coral: #f97316; --accent-coral-dim: rgba(249,115,22,0.12);
+  --accent-green: #22c55e; --accent-green-dim: rgba(34,197,94,0.12);
+  --accent-red: #ef4444; --accent-red-dim: rgba(239,68,68,0.12);
+  --accent-amber: #f59e0b; --accent-amber-dim: rgba(245,158,11,0.12);
+  --accent-violet: #a78bfa; --accent-violet-dim: rgba(167,139,250,0.12);
+}
+* {margin:0;padding:0;box-sizing:border-box}
+body {background:var(--bg-deep);color:var(--text-primary);font-family:'Noto Sans SC',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(6,182,212,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(167,139,250,0.04) 0%,transparent 50%);pointer-events:none}
+.mono {font-family:'DM Mono',monospace}
+.container {max-width:1400px;margin:0 auto;padding:24px 20px;position:relative;z-index:1}
+.header {display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.header-left h1 {font-size:28px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#06b6d4,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-left .sub {font-size:13px;color:var(--text-muted);margin-top:4px;letter-spacing:0.5px}
+.update-badge {display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;background:var(--accent-ocean-dim);color:var(--accent-ocean);border:1px solid rgba(6,182,212,0.25);margin-top:6px}
+.update-badge .dot {width:6px;height:6px;border-radius:50%;background:var(--accent-ocean);animation:pulse 2s infinite}
+@keyframes pulse {0%,100%{opacity:1}50%{opacity:0.3}}
+.summary-strip {display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.summary-item {flex:1;min-width:130px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:3px}
+.summary-item .label {font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.summary-item .val {font-size:22px;font-weight:900}
+.summary-item .val.cyan {color:var(--accent-ocean)} .summary-item .val.green {color:var(--accent-green)}
+.summary-item .val.amber {color:var(--accent-amber)} .summary-item .val.violet {color:var(--accent-violet)}
+.summary-item .sub {font-size:9px;color:var(--text-muted)}
+.section-title {font-size:16px;font-weight:700;color:var(--text-secondary);margin:36px 0 20px;display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:1px}
+.section-title .line {flex:1;height:1px;background:linear-gradient(90deg,var(--border-accent),transparent)}
+.flight-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px}
+@media(max-width:1100px){.flight-grid{grid-template-columns:1fr}}
+.flight-card {background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px}
+.flight-card.leg1 {border-top:3px solid var(--accent-ocean)}
+.flight-card.leg2 {border-top:3px solid var(--accent-amber)}
+.flight-card.leg3 {border-top:3px solid var(--accent-violet)}
+.flight-card-header {display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.flight-badge {font-size:13px;font-weight:900;padding:3px 10px;border-radius:6px}
+.flight-badge.leg1 {background:var(--accent-ocean-dim);color:var(--accent-ocean)}
+.flight-badge.leg2 {background:var(--accent-amber-dim);color:var(--accent-amber)}
+.flight-badge.leg3 {background:var(--accent-violet-dim);color:var(--accent-violet)}
+.flight-date {font-size:12px;color:var(--text-secondary)}
+.flight-segment-row {display:flex;align-items:center;gap:8px;margin:10px 0 6px}
+.flight-seg {text-align:center;flex:1}
+.flight-time {font-size:18px;font-weight:900;font-family:'DM Mono',monospace}
+.flight-airport {font-size:10px;color:var(--text-muted);margin-top:2px}
+.flight-arrow {flex:0 0 50px;height:2px;border-radius:1px;position:relative}
+.flight-arrow.leg1 {background:linear-gradient(90deg,var(--accent-ocean),var(--accent-violet))}
+.flight-arrow.leg2 {background:linear-gradient(90deg,var(--accent-amber),var(--accent-ocean))}
+.flight-arrow.leg3 {background:linear-gradient(90deg,var(--accent-violet),var(--accent-ocean))}
+.flight-arrow::after {content:attr(data-dur);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--text-muted);white-space:nowrap}
+.flight-info-row {display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px}
+.flight-price-row {display:flex;gap:8px;margin-top:10px}
+.flight-price-box {flex:1;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 8px;text-align:center}
+.flight-price-box .label {font-size:9px;color:var(--text-muted)}
+.flight-price-box .val {font-size:16px;font-weight:900;color:var(--accent-coral);font-family:'DM Mono',monospace}
+.flight-price-box.x6 .val {color:var(--accent-amber)}
+.flight-note {font-size:9px;color:var(--text-muted);margin-top:6px;font-style:italic}
+.flight-source-row {display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.source-badge {font-size:9px;padding:2px 6px;border-radius:4px;font-weight:500}
+.source-badge.ctrip {background:var(--accent-ocean-dim);color:var(--accent-ocean)}
+.source-badge.flyai {background:var(--accent-green-dim);color:var(--accent-green)}
+.source-badge.na {color:var(--text-muted)}
+.flight-total-bar {background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.flight-total-bar .lbl {font-size:13px;color:var(--text-secondary);font-weight:700}
+.flight-total-bar .val {font-size:20px;font-weight:900;font-family:'DM Mono',monospace}
+.flight-total-bar .val .pp {color:var(--accent-coral)}
+.flight-total-bar .val .x6 {color:var(--accent-amber)}
+.hotel-section {background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
+.hotel-table {width:100%;border-collapse:separate;border-spacing:0}
+.hotel-table thead th {padding:10px 8px;font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;text-transform:uppercase;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
+.hotel-table thead th:first-child {text-align:left}
+.hotel-table tbody td {padding:12px 8px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;text-align:center}
+.hotel-table tbody td:first-child {text-align:left}
+.hotel-table tbody tr:last-child td {border-bottom:none}
+.hotel-table tbody tr:hover td {background:var(--bg-card-hover)}
+.hotel-name {font-weight:700;color:var(--text-primary);white-space:nowrap}
+.hotel-room {font-size:9px;color:var(--text-muted);margin-top:2px}
+.hotel-seg-badge {display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:3px}
+.hotel-seg-badge.s1 {background:var(--accent-ocean-dim);color:var(--accent-ocean)}
+.hotel-seg-badge.s2 {background:var(--accent-amber-dim);color:var(--accent-amber)}
+.hotel-seg-badge.s3 {background:var(--accent-violet-dim);color:var(--accent-violet)}
+.platform-price {font-size:14px;font-weight:900;font-family:'DM Mono',monospace}
+.platform-price.has {color:var(--text-secondary)}
+.platform-price.best {color:var(--accent-green)}
+.platform-price.na {color:var(--text-muted);font-size:11px;font-weight:400}
+.platform-note {font-size:8px;color:var(--text-muted);margin-top:2px}
+.price-cell {font-size:15px;font-weight:900;color:var(--accent-green);font-family:'DM Mono',monospace}
+.subtotal-cell {font-size:14px;font-weight:900;color:var(--accent-coral);font-family:'DM Mono',monospace}
+.hotel-notes {margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);font-size:10px;color:var(--text-muted);line-height:1.8}
+.budget-section {background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
+.budget-table {width:100%;border-collapse:separate;border-spacing:0}
+.budget-table th {padding:12px 10px;font-size:11px;font-weight:700;color:var(--text-muted);text-align:left;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border)}
+.budget-table th:not(:first-child) {text-align:center}
+.budget-table td {padding:12px 10px;border-bottom:1px solid var(--border);font-size:14px}
+.budget-table td:not(:first-child) {text-align:center;font-family:'DM Mono',monospace;font-weight:700}
+.budget-table tr:last-child td {border-bottom:none}
+.budget-table tr.total-row td {border-top:2px solid var(--border-accent);font-size:16px;font-weight:900}
+.budget-table tr.total-row td .val {color:var(--accent-green)}
+.footer {margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:center;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+  <div class="header-left">
+    <h1>PRICE TRACKER</h1>
+    <div class="sub">富国岛+香港·三段航班出行 · 4人 · 上海-富国岛-香港-上海 · 酒店4人2间房</div>
+    <div class="update-badge"><span class="dot"></span>自动更新 · 每日巡查</div>
+  </div>
+  <div style="text-align:right">
+    <div id="syncTime" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+  </div>
+</div>
+<div class="summary-strip" id="summary"></div>
+<div class="section-title"><span>三段航班</span><span class="line"></span></div>
+<div class="flight-grid" id="flightGrid"></div>
+<div class="flight-total-bar" id="flightTotal"></div>
+<div class="section-title"><span>三段酒店 · 4人2间房 · 多平台每日每间均价</span><span class="line"></span></div>
+<div class="hotel-section">
+  <div style="overflow-x:auto">
+    <table class="hotel-table">
+      <thead><tr>
+        <th>酒店/房型</th><th>入住-离店</th><th>晚/间</th>
+        <th>携程</th><th>飞猪</th><th>Klook</th><th>Agoda</th>
+        <th>最低/间/晚</th><th>2间小计</th>
+      </tr></thead>
+      <tbody id="hotelBody"></tbody>
+    </table>
+  </div>
+  <div class="hotel-notes" id="hotelNotes"></div>
+</div>
+<div class="section-title"><span>预算汇总</span><span class="line"></span></div>
+<div class="budget-section">
+  <table class="budget-table" id="budgetTable"></table>
+</div>
+<div class="footer">
+  <span>数据来源：携程问道 · 飞猪flyai · Klook · Agoda</span>
+  <span>巡查航班：MU6033 · 9G502 · CX362 ｜ 巡查酒店：美憬阁 · 希尔顿格芮 · 合和</span>
+</div>
+</div>
+<script>
+/* === DATA_BLOCK_START === */
+const DATA = {
+  lastUpdate: "2026-09-30T17:35",
+  paxCount: 4,
+  trip: {
+    label: "富国岛4晚+香港1晚",
+    depDate: "2026-11-19",
+    retDate: "2026-11-24",
+    totalFlightPerPerson: 3658,
+    totalFlightNote: "去程¥2,329+中转¥604+回程¥725",
+    flights: [
+{id:"leg1",label:"去程",no:"MU6033",airline:"东方航空",aircraft:"空客320-NEO",depDate:"2026-11-19",depTime:"20:00",arrTime:"00:05",arrNote:"+1天 11/20",from:"上海浦东T1",to:"富国岛",dur:"约5h5m",price:2329,note:"携程问道¥2,329",ctrip:2329,flyai:null},
+{id:"leg2",label:"中转",no:"9G502",airline:"太阳富国航空",aircraft:"空客321",depDate:"2026-11-23",depTime:"12:05",arrTime:"15:45",arrNote:"",from:"富国岛",to:"香港T1",dur:"约2h40m",price:604,note:"携程问道¥604",ctrip:604,flyai:null},
+{id:"leg3",label:"回程",no:"CX362",airline:"国泰航空",aircraft:"波音777-300",depDate:"2026-11-24",depTime:"19:20",arrTime:"22:00",arrNote:"",from:"香港T1",to:"上海浦东T2",dur:"约2h40m",price:725,note:"携程问道¥725",ctrip:725,flyai:null}
+    ],
+    hotels: [
+{id:"seg1-mgallery",name:"美憬阁拉维朗达",nameEn:"La Veranda Resort Phu Quoc - MGallery",location:"富国岛·阳东长滩",recLabel:"法式风情",checkIn:"2026-11-19",checkOut:"2026-11-21",nights:2,rooms:2,guests:4,room:"豪华园景双床房",note:"五星级·2023年装修·免费接机·携程4.8分",prices:{ctrip:null,flyai:null,klook:1263,agoda:null},priceNotes:{ctrip:"无实时报价·需App确认",flyai:"飞猪无此酒店",klook:"6/28历史参考价",agoda:"待巡查补充"}},
+{id:"seg2-curio-hilton",name:"希尔顿格芮精选",nameEn:"La Festa Phu Quoc, Curio Collection by Hilton",location:"富国岛·日落小镇",recLabel:"日落景观",checkIn:"2026-11-21",checkOut:"2026-11-23",nights:2,rooms:2,guests:4,room:"经典双床房",note:"2023年开业·缆车步行·烟花秀·携程4.6分",prices:{ctrip:6076,flyai:4000,klook:996,agoda:null},priceNotes:{ctrip:"11月旺季含税参考价",flyai:"¥4xxx体验模式模糊价",klook:"近30天最低(10/26参考)",agoda:"待巡查补充"}},
+{id:"seg3-hopewell",name:"香港合和酒店",nameEn:"Hopewell Hotel Hong Kong",location:"香港·湾仔",recLabel:"港岛最大五星",checkIn:"2026-11-23",checkOut:"2026-11-24",nights:1,rooms:2,guests:4,room:"豪华客房双床30㎡",note:"2024年12月开业·1000间客房·近湾仔地铁站·9.3分",prices:{ctrip:null,flyai:1000,klook:1030,agoda:null},priceNotes:{ctrip:"无实时报价·需App确认",flyai:"¥1xxx体验模式模糊价",klook:"RM634≈¥1,030(30天最低)",agoda:"待巡查补充"}}
+    ]
+  }
+};
+/* === DATA_BLOCK_END === */
+
+const PLATFORMS = [
+  {key:'ctrip', label:'携程', cls:'ctrip'},
+  {key:'flyai', label:'飞猪', cls:'flyai'},
+  {key:'klook', label:'Klook', cls:'klook'},
+  {key:'agoda', label:'Agoda', cls:'agoda'}
+];
+
+function fmtPrice(val){ return val ? '\u00a5'+val.toLocaleString() : '--'; }
+function daysLeft(dateStr){ var d=new Date(dateStr); var now=new Date(); return Math.max(0,Math.ceil((d-now)/(1000*60*60*24))); }
+function minPrice(prices){ var vals=[]; for(var k in prices){ if(prices[k]){ vals.push(prices[k]); } } return vals.length?Math.min.apply(null,vals):null; }
+
+function renderSummary(){
+  var el=document.getElementById('summary');
+  var pax=DATA.paxCount;
+  var t=DATA.trip;
+  var flightPer=t.totalFlightPerPerson||0;
+  var hotelSegTotals=t.hotels.map(function(h){
+    var mp=minPrice(h.prices);
+    return mp?mp*h.nights*h.rooms:0;
+  });
+  var hotelTotal=hotelSegTotals.reduce(function(a,b){return a+b},0);
+  var hotelPerPerson=Math.ceil(hotelTotal/pax);
+  var total=flightPer+hotelPerPerson;
+  el.innerHTML=[
+    '<div class="summary-item"><span class="label">出行人数</span><span class="val cyan">'+pax+'人</span><span class="sub">酒店4人2间房</span></div>',
+    '<div class="summary-item"><span class="label">机票/人(三段)</span><span class="val amber">\u00a5'+flightPer.toLocaleString()+'</span><span class="sub">'+t.totalFlightNote+'</span></div>',
+    '<div class="summary-item"><span class="label">酒店2间总计</span><span class="val green">\u00a5'+hotelTotal.toLocaleString()+'</span><span class="sub">5晚x2间 · \u00a5'+hotelPerPerson.toLocaleString()+'/人</span></div>',
+    '<div class="summary-item"><span class="label">总预算/人</span><span class="val violet">\u00a5'+total.toLocaleString()+'</span><span class="sub">全队'+pax+'人 \u00a5'+(total*pax).toLocaleString()+'</span></div>'
+  ].join('');
+}
+
+function renderFlights(){
+  var grid=document.getElementById('flightGrid');
+  var pax=DATA.paxCount;
+  var legs=DATA.trip.flights;
+  var legClasses=['leg1','leg2','leg3'];
+  var cards=legs.map(function(fl,idx){
+    var cls=legClasses[idx]||'leg1';
+    var arrNote=fl.arrNote?' <span style="color:var(--accent-amber);font-size:10px">('+fl.arrNote+')</span>':'';
+    var srcHtml='';
+    if(fl.ctrip){ srcHtml+='<span class="source-badge ctrip">携程 \u00a5'+fl.ctrip.toLocaleString()+'</span>'; }
+    else { srcHtml+='<span class="source-badge na">携程 --</span>'; }
+    if(fl.flyai){ srcHtml+='<span class="source-badge flyai">飞猪 \u00a5'+fl.flyai.toLocaleString()+'</span>'; }
+    else { srcHtml+='<span class="source-badge na">飞猪 --</span>'; }
+    return '<div class="flight-card '+cls+'">'+
+      '<div class="flight-card-header">'+
+        '<span class="flight-badge '+cls+'">'+fl.label+'</span>'+
+        '<span class="flight-date">'+fl.depDate+' (距出发'+daysLeft(fl.depDate)+'天)</span>'+
+      '</div>'+
+      '<div class="flight-info-row"><span>'+fl.no+' '+fl.airline+' '+fl.aircraft+'</span></div>'+
+      '<div class="flight-segment-row">'+
+        '<div class="flight-seg"><div class="flight-time">'+fl.depTime+'</div><div class="flight-airport">'+fl.from+'</div></div>'+
+        '<div class="flight-arrow '+cls+'" data-dur="'+fl.dur+'"></div>'+
+        '<div class="flight-seg"><div class="flight-time">'+fl.arrTime+arrNote+'</div><div class="flight-airport">'+fl.to+'</div></div>'+
+      '</div>'+
+      '<div class="flight-price-row">'+
+        '<div class="flight-price-box"><div class="label">单程/人</div><div class="val">'+fmtPrice(fl.price)+'</div></div>'+
+        '<div class="flight-price-box x6"><div class="label">x'+pax+'人</div><div class="val">\u00a5'+(fl.price*pax).toLocaleString()+'</div></div>'+
+      '</div>'+
+      '<div class="flight-note">'+fl.note+'</div>'+
+      '<div class="flight-source-row">'+srcHtml+'</div>'+
+    '</div>';
+  });
+  grid.innerHTML=cards.join('');
+  var totalPer=DATA.trip.totalFlightPerPerson||0;
+  document.getElementById('flightTotal').innerHTML=
+    '<span class="lbl">三段机票合计</span>'+
+    '<span class="val"><span class="pp">\u00a5'+totalPer.toLocaleString()+'</span>/人 · <span class="x6">\u00a5'+(totalPer*pax).toLocaleString()+'</span>/'+pax+'人</span>';
+}
+
+function renderHotels(){
+  var tbody=document.getElementById('hotelBody');
+  var notesEl=document.getElementById('hotelNotes');
+  var segClasses=['s1','s2','s3'];
+  var segLabels=['第1段·富国岛','第2段·富国岛','第3段·香港'];
+  var notesParts=[];
+  var rows=DATA.trip.hotels.map(function(h,idx){
+    var sc=segClasses[idx]||'s1';
+    var mp=minPrice(h.prices);
+    var platformHtml=PLATFORMS.map(function(p){
+      var v=h.prices[p.key];
+      var note=h.priceNotes&&h.priceNotes[p.key]?h.priceNotes[p.key]:'';
+      if(v){
+        var isBest=v===mp;
+        var cls=isBest?'platform-price best':'platform-price has';
+        return '<td><span class="'+cls+'">\u00a5'+v.toLocaleString()+'</span>'+(note?'<div class="platform-note">'+note+'</div>':'')+'</td>';
+      } else {
+        return '<td><span class="platform-price na">--</span>'+(note?'<div class="platform-note">'+note+'</div>':'')+'</td>';
+      }
+    }).join('');
+    var subtotal=mp?'\u00a5'+(mp*h.nights*h.rooms).toLocaleString():'--';
+    var dateStr=h.checkIn+'<br>'+h.checkOut;
+    var nightsStr=h.nights+'晚<br>'+h.rooms+'间';
+    if(h.priceNotes){ notesParts.push('<b>'+h.name+'</b>：'+Object.keys(h.priceNotes).map(function(k){ var lbl=PLATFORMS.find(function(p){return p.key===k}); return (lbl?lbl.label:k)+' '+h.priceNotes[k]; }).join('；')); }
+    return '<tr>'+
+      '<td><span class="hotel-seg-badge '+sc+'">'+(segLabels[idx]||'')+'</span>'+
+        '<div class="hotel-name">'+h.name+'</div>'+
+        '<div class="hotel-room">'+h.room+' · '+h.location+'</div></td>'+
+      '<td class="mono" style="font-size:11px">'+dateStr+'</td>'+
+      '<td class="mono" style="font-size:11px;color:var(--text-secondary)">'+nightsStr+'</td>'+
+      platformHtml+
+      '<td><span class="price-cell">'+(mp?'\u00a5'+mp.toLocaleString():'--')+'</span></td>'+
+      '<td><span class="subtotal-cell">'+subtotal+'</span></td>'+
+    '</tr>';
+  }).join('');
+  tbody.innerHTML=rows;
+  notesEl.innerHTML='价格说明：'+notesParts.join(' ｜ ');
+}
+
+function renderBudget(){
+  var tbl=document.getElementById('budgetTable');
+  var pax=DATA.paxCount;
+  var t=DATA.trip;
+  var flightPer=t.totalFlightPerPerson||0;
+  var flightTotal=flightPer*pax;
+  var rows=[];
+  rows.push('<thead><tr><th>费用项</th><th>人均</th><th>全队'+pax+'人</th><th>说明</th></tr></thead><tbody>');
+  rows.push('<tr><td style="font-weight:700;color:var(--accent-ocean)">机票(三段)</td><td>\u00a5'+flightPer.toLocaleString()+'</td><td>\u00a5'+flightTotal.toLocaleString()+'</td><td style="font-size:11px;color:var(--text-muted)">'+t.totalFlightNote+'</td></tr>');
+  var hotelGrand=0;
+  t.hotels.forEach(function(h){
+    var mp=minPrice(h.prices);
+    var segTotal=mp?mp*h.nights*h.rooms:0;
+    hotelGrand+=segTotal;
+    var perPerson=Math.ceil(segTotal/pax);
+    rows.push('<tr><td>'+h.name+'<div style="font-size:10px;color:var(--text-muted)">'+h.checkIn+'-'+h.checkOut+' · '+h.nights+'晚x'+h.rooms+'间 · '+h.room+'</div></td><td>\u00a5'+perPerson.toLocaleString()+'</td><td>\u00a5'+segTotal.toLocaleString()+'</td><td style="font-size:11px;color:var(--text-muted)">'+(mp?'最低\u00a5'+mp.toLocaleString()+'/间/晚':'待询价')+'</td></tr>');
+  });
+  var hotelPerPerson=Math.ceil(hotelGrand/pax);
+  var totalPer=flightPer+hotelPerPerson;
+  var totalGroup=flightTotal+hotelGrand;
+  rows.push('<tr class="total-row"><td>总预算(最低)</td><td><span class="val">\u00a5'+totalPer.toLocaleString()+'</span></td><td><span class="val">\u00a5'+totalGroup.toLocaleString()+'</span></td><td style="font-size:11px;color:var(--text-muted)">机票+酒店最低价合计</td></tr>');
+  rows.push('</tbody>');
+  tbl.innerHTML=rows.join('');
+}
+
+document.getElementById('syncTime').textContent='数据同步：'+DATA.lastUpdate;
+renderSummary();renderFlights();renderHotels();renderBudget();
+</script>
+</body>
+</html>
