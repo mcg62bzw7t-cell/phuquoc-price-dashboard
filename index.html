@@ -129,14 +129,14 @@ body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-in
 <div class="section-title"><span>三段航班</span><span class="line"></span></div>
 <div class="flight-grid" id="flightGrid"></div>
 <div class="flight-total-bar" id="flightTotal"></div>
-<div class="section-title"><span>三段酒店 · 4人2间房 · 多平台每日每间均价</span><span class="line"></span></div>
+<div class="section-title"><span>三段酒店 · 4人 · 多平台每日每间均价</span><span class="line"></span></div>
 <div class="hotel-section">
   <div style="overflow-x:auto">
     <table class="hotel-table">
       <thead><tr>
         <th>酒店/房型</th><th>入住-离店</th><th>晚/间</th>
         <th>携程</th><th>飞猪</th><th>Klook</th><th>Agoda</th>
-        <th>最低/间/晚</th><th>2间小计</th>
+        <th>最低/间/晚</th><th>间夜小计</th>
       </tr></thead>
       <tbody id="hotelBody"></tbody>
     </table>
@@ -155,24 +155,24 @@ body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;z-in
 <script>
 /* === DATA_BLOCK_START === */
 const DATA = {
-  lastUpdate: "2026-10-01T11:00",
+  lastUpdate: "2026-10-06T16:30",
   paxCount: 4,
   trip: {
-    label: "富国岛4晚+香港1晚",
+    label: "富国岛3晚+香港2晚",
     depDate: "2026-11-19",
     retDate: "2026-11-24",
-    totalFlightPerPerson: 3657,
-    prevTotalFlightPerPerson: 3658,
-    totalFlightNote: "去程¥2,329+中转¥604+回程¥724",
+    totalFlightPerPerson: 3634,
+    prevTotalFlightPerPerson: null,
+    totalFlightNote: "去程¥2,329+中转¥581+回程¥724",
     flights: [
 {id:"leg1",label:"去程",no:"MU6033",airline:"东方航空",aircraft:"空客320-NEO",depDate:"2026-11-19",depTime:"20:00",arrTime:"00:05",arrNote:"+1天 11/20",from:"上海浦东T1",to:"富国岛",dur:"约5h5m",price:2329,prevPrice:2329,note:"携程问道¥2,329·飞猪¥2,347贵¥18",ctrip:2329,flyai:2347,prevCtrip:2329,prevFlyai:null},
-{id:"leg2",label:"中转",no:"9G502",airline:"太阳富国航空",aircraft:"空客321",depDate:"2026-11-23",depTime:"12:05",arrTime:"15:45",arrNote:"",from:"富国岛",to:"香港T1",dur:"约2h40m",price:604,prevPrice:604,note:"携程问道¥604·飞猪¥784贵¥180",ctrip:604,flyai:784,prevCtrip:604,prevFlyai:null},
+{id:"leg2",label:"中转",no:"9G502",airline:"太阳富国航空",aircraft:"空客321",depDate:"2026-11-22",depTime:"12:05",arrTime:"15:45",arrNote:"",from:"富国岛",to:"香港T1",dur:"约2h40m",price:581,prevPrice:null,note:"携程¥605·飞猪¥581(更优)",ctrip:605,flyai:581,prevCtrip:null,prevFlyai:null},
 {id:"leg3",label:"回程",no:"CX362",airline:"国泰航空",aircraft:"波音777-300",depDate:"2026-11-24",depTime:"19:20",arrTime:"22:00",arrNote:"",from:"香港T1",to:"上海浦东T2",dur:"约2h40m",price:724,prevPrice:725,note:"携程问道¥724·双渠道一致",ctrip:724,flyai:724,prevCtrip:725,prevFlyai:null}
     ],
     hotels: [
-{id:"seg1-mgallery",name:"美憬阁拉维朗达",nameEn:"La Veranda Resort Phu Quoc - MGallery",location:"富国岛·阳东长滩",recLabel:"法式风情",checkIn:"2026-11-19",checkOut:"2026-11-21",nights:2,rooms:2,guests:4,room:"豪华园景双床房",note:"五星级·2023年装修·免费接机·携程4.8分",prices:{ctrip:1341,flyai:null,klook:1263,agoda:null},prevPrices:{ctrip:1341,flyai:null,klook:1263,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"飞猪无此酒店",klook:"6/28历史参考价",agoda:"待巡查补充"}},
-{id:"seg2-curio-hilton",name:"希尔顿格芮精选",nameEn:"La Festa Phu Quoc, Curio Collection by Hilton",location:"富国岛·日落小镇",recLabel:"日落景观",checkIn:"2026-11-21",checkOut:"2026-11-23",nights:2,rooms:2,guests:4,room:"经典双床房",note:"2023年开业·缆车步行·烟花秀·携程4.6分",prices:{ctrip:1501,flyai:4000,klook:996,agoda:null},prevPrices:{ctrip:1501,flyai:4000,klook:996,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"¥4xxx体验模式模糊价",klook:"近30天最低(10/26参考)",agoda:"待巡查补充"}},
-{id:"seg3-hopewell",name:"香港合和酒店",nameEn:"Hopewell Hotel Hong Kong",location:"香港·湾仔",recLabel:"港岛最大五星",checkIn:"2026-11-23",checkOut:"2026-11-24",nights:1,rooms:2,guests:4,room:"豪华客房双床30㎡",note:"2024年12月开业·1000间客房·近湾仔地铁站·9.3分",prices:{ctrip:1216,flyai:1000,klook:1030,agoda:null},prevPrices:{ctrip:1216,flyai:1000,klook:1030,agoda:null},priceNotes:{ctrip:"携程App实查·每间每晚均价",flyai:"¥1xxx体验模式模糊价",klook:"RM634≈¥1,030(30天最低)",agoda:"待巡查补充"}}
+{id:"seg1-dusit-princess",name:"都喜公主月光沙滩",nameEn:"Dusit Princess Moonlight Beach Resort Phu Quoc",location:"富国岛·长滩",recLabel:"泰式海景",checkIn:"2026-11-19",checkOut:"2026-11-21",nights:2,rooms:2,guests:4,room:"海景豪华双床房",note:"2018年开业·5钻·免费接机·泰式SPA·携程4.7分",prices:{ctrip:null,flyai:1000,klook:null,agoda:null},prevPrices:{ctrip:null,flyai:null,klook:null,agoda:null},priceNotes:{ctrip:"无实时报价·需App确认",flyai:"¥1xxx体验模式模糊价",klook:"待巡查补充",agoda:"待巡查补充"}},
+{id:"seg2-emerald-bay",name:"翡翠湾高级公寓",nameEn:"Emerald Bay - Managed by Accor",location:"富国岛·Khem海滩",recLabel:"两卧泳池公寓",checkIn:"2026-11-21",checkOut:"2026-11-22",nights:1,rooms:1,guests:4,room:"两卧室顶层房(135㎡带私人泳池)",note:"雅高集团管理·745间·私享白沙滩·携程4.4分",prices:{ctrip:2118,flyai:null,klook:null,agoda:null},prevPrices:{ctrip:null,flyai:null,klook:null,agoda:null},priceNotes:{ctrip:"基础房型起步参考价·两卧顶层房待实查",flyai:"模糊价仅基础房型·不适用两卧顶层",klook:"待巡查补充",agoda:"待巡查补充"}},
+{id:"seg3-hopewell",name:"香港合和酒店",nameEn:"Hopewell Hotel Hong Kong",location:"香港·湾仔",recLabel:"港岛最大五星",checkIn:"2026-11-22",checkOut:"2026-11-24",nights:2,rooms:2,guests:4,room:"豪华客房双床30㎡",note:"2024年12月开业·1000间客房·近湾仔地铁站·9.3分",prices:{ctrip:1216,flyai:1000,klook:1030,agoda:null},prevPrices:{ctrip:null,flyai:null,klook:null,agoda:null},priceNotes:{ctrip:"沿用11/23实查价参考·新日期段待确认",flyai:"¥1xxx体验模式模糊价",klook:"RM634≈¥1,030(30天最低)沿用",agoda:"待巡查补充"}}
     ]
   }
 };
@@ -210,10 +210,12 @@ function renderSummary(){
   var total=flightPer+hotelPerPerson;
   var prevFlightPer=(t.prevTotalFlightPerPerson===null||t.prevTotalFlightPerPerson===undefined)?flightPer:t.prevTotalFlightPerPerson;
   var prevTotal=prevFlightPer+hotelPerPerson;
+  var totalNights=t.hotels.reduce(function(a,h){return a+h.nights},0);
+  var totalRoomNights=t.hotels.reduce(function(a,h){return a+h.nights*h.rooms},0);
   el.innerHTML=[
-    '<div class="summary-item"><span class="label">出行人数</span><span class="val cyan">'+pax+'人</span><span class="sub">酒店4人2间房</span></div>',
+    '<div class="summary-item"><span class="label">出行人数</span><span class="val cyan">'+pax+'人</span><span class="sub">富国岛3晚+香港2晚</span></div>',
     '<div class="summary-item"><span class="label">机票/人(三段)</span><span class="val amber">\u00a5'+flightPer.toLocaleString()+'</span><span class="sub">'+t.totalFlightNote+'</span><div class="delta-row">'+deltaBadge(flightPer,prevFlightPer)+'</div></div>',
-    '<div class="summary-item"><span class="label">酒店2间总计</span><span class="val green">\u00a5'+hotelTotal.toLocaleString()+'</span><span class="sub">5晚x2间 · \u00a5'+hotelPerPerson.toLocaleString()+'/人</span><div class="delta-row">'+deltaBadge(hotelTotal,null)+'</div></div>',
+    '<div class="summary-item"><span class="label">酒店总计(间夜)</span><span class="val green">\u00a5'+hotelTotal.toLocaleString()+'</span><span class="sub">'+totalNights+'晚'+totalRoomNights+'间夜 · \u00a5'+hotelPerPerson.toLocaleString()+'/人</span><div class="delta-row">'+deltaBadge(hotelTotal,null)+'</div></div>',
     '<div class="summary-item"><span class="label">总预算/人</span><span class="val violet">\u00a5'+total.toLocaleString()+'</span><span class="sub">全队'+pax+'人 \u00a5'+(total*pax).toLocaleString()+'</span><div class="delta-row">'+deltaBadge(total,prevTotal)+'</div></div>'
   ].join('');
 }
